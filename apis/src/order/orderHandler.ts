@@ -14,9 +14,11 @@ export async  function orderHandler( req: Request, res: Response)
             return res.status(403).json({message:" Invalid order body"});
         if(!balanceHandler.canOrderPlaced(req.id!, validatedOrder.data))
             return res.status(403).json({message :`Insufficient${type === "buy"? "INR" : market}`})
-        const fill = await callEngine(req.id!, validatedOrder.data) as [{id:string, qty:number, price:number}];;
+        const fill = await callEngine(req.id!, validatedOrder.data) as [{id:string, qty:number, price:number}];
+        console.log(fill);
         for(let i= 0;i < fill.length;i++)
         {
+            console.log(`${req.id} was taker and ${fill[i]?.id } was maker`);
             balanceHandler.updateThroughTransaction( fill[i]!.id, req.id!, fill[i]!.price, fill[i]!.qty, validatedOrder.data.market, validatedOrder.data.type);
             //call fill db
         }

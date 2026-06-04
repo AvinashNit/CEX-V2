@@ -9,18 +9,16 @@ export class Engine{
     }
 
     matchEngineCall(takerOrder : individualOrder, type : "buy"|"sell", market : string){
-        console.log("starting engine");
+       
         let remaingQty = takerOrder.qty;
-        console.log(takerOrder)
-        console.log(type)
-        console.log(market)
+        
         const result: individualOrder[] = [];
         let array: undefined | individualOrder[];
         if(this.orderBook.get(market) === undefined)
         {
-            console.log("empty market to fill")
+            
             this.orderBook.set(market,{bids: [], asks: []});
-            console.log("created market")
+            
             if(type === "buy"){
                 this.orderBook.get(market)!.bids.push(takerOrder);
                 console.log("put on order")
@@ -75,12 +73,19 @@ export class Engine{
             }
         }
         if(remaingQty > 0){
-            array?.push({...takerOrder, qty: remaingQty});
+
             if(type === "buy")
+            {
+                this.orderBook.get(market)!.bids.push({...takerOrder, qty: remaingQty});
                 array?.sort((a,b)=> a.price - b.price);
+            }
             else
+            {
+                this.orderBook.get(market)!.asks.push({...takerOrder, qty: remaingQty});
                 array?.sort((a,b)=> b.price - a.price);
+            }
         }
+        console.log(result);
         return result;
         
     }

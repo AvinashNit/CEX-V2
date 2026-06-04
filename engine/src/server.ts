@@ -1,7 +1,7 @@
 import express from  "express";
 import { matchingEngine } from "./engineCall";
 import engineRouter  from "./engineRouter";
-matchingEngine.seedOrder({id:"avinashETH", qty:5, price:100},"sell","ETH")
+// matchingEngine.seedOrder({id:"avinashETH", qty:5, price:100},"sell","ETH")
 
 const app = express();
 
